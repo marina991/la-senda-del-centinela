@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Senda del Centinela</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Alegreya+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#16212b;--panel:#1f2e3a;--ink:#e9e4d4;--mut:#9fb0b8;--gold:#e0a64a;--moss:#7fa37a;--ember:#d1634a;--line:#33485a;--tbg:#0c1319;--tink:#b9dcaa;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark light}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#e6ebe4;--panel:#f6f8f3;--ink:#1b2a33;--mut:#51636c;--gold:#9a6512;--moss:#3f6f45;--ember:#b23f27;--line:#c3cdc2}}
+:root[data-theme="dark"]{--bg:#16212b}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 "Alegreya Sans",system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px 14px 48px}
+h1,h2,h3{font-family:Cinzel,Georgia,serif;margin:0}
+h1{font-size:26px;font-weight:800;letter-spacing:.02em}
+h2{font-size:21px}
+h3{font-size:16px;color:var(--gold)}
+.sub{color:var(--mut);margin:2px 0 12px}
+.hud{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.bar{flex:1;height:10px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);transition:width .5s}
+.rank{font-family:Cinzel,serif;font-weight:600;font-size:14px;white-space:nowrap}
+.warn{border:1px solid var(--ember);border-radius:8px;padding:8px 12px;font-size:15px;margin:10px 0}
+svg.map{width:100%;height:auto;display:block;margin:6px 0}
+.map path{fill:none;stroke:var(--line);stroke-width:5;stroke-dasharray:2 9;stroke-linecap:round}
+.map g{cursor:pointer}
+.map circle{stroke-width:3}
+.map text{font:700 15px Cinzel,serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.panel{background:var(--panel);border-radius:10px;border-left:6px solid var(--c,var(--gold));padding:14px 16px;margin-top:10px}
+.panel p{margin:8px 0}
+.les{border-top:1px solid var(--line);margin-top:10px;padding-top:6px}
+.les li{margin:6px 0}
+.ch{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+.ch.ok{opacity:.75}
+.opt{display:block;width:100%;text-align:left;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:6px 0;font:inherit;cursor:pointer}
+.opt:hover,.opt:focus-visible{border-color:var(--gold);outline:none}
+.opt.good{border-color:var(--moss);background:color-mix(in srgb,var(--moss) 22%,transparent)}
+.opt.bad{border-color:var(--ember)}
+.fb{margin:6px 0;font-size:16px}.fb.g{color:var(--moss)}.fb.b{color:var(--ember)}
+.term{background:var(--tbg);color:var(--tink);border-radius:8px;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace;padding:10px;margin-top:8px}
+.log{max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.term .p{display:flex;gap:6px;margin-top:6px}
+.term input{flex:1;min-width:0;background:transparent;border:0;color:#fff;font:inherit;outline:none;caret-color:var(--gold)}
+button.go{background:var(--gold);color:#1b1608;border:0;border-radius:8px;padding:9px 16px;font:700 16px "Alegreya Sans",sans-serif;cursor:pointer;margin-top:10px}
+.lock{color:var(--mut)}
+.cover{position:relative;aspect-ratio:4/3;max-height:75vh;border-radius:10px;overflow:hidden;margin:4px 0 10px;box-shadow:0 0 30px -6px #7a6bd0}
+.cover .hero{position:absolute;inset:0;width:100%;height:100%;margin:0;box-shadow:none;border-radius:0}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(transparent 55%,rgba(6,9,20,.75))}
+.sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s;animation:kb 14s ease-in-out infinite alternate}
+.sl.on{opacity:1}
+@keyframes kb{to{transform:scale(1.12)}}
+
+img.emb{width:96px;height:96px;object-fit:cover;border-radius:12px;float:right;margin:0 0 8px 12px;box-shadow:0 0 18px rgba(224,166,74,.5)}
+html{background:#060914}
+body{background:transparent}
+#bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(60% 50% at 20% 15%,rgba(120,70,220,.45),transparent 70%),radial-gradient(55% 45% at 85% 25%,rgba(30,150,170,.35),transparent 70%),radial-gradient(70% 55% at 50% 100%,rgba(210,120,50,.28),transparent 70%),#070b1a;animation:neb 40s ease-in-out infinite alternate}
+#fx{position:fixed;inset:0;z-index:-1;pointer-events:none;width:100%;height:100%}
+@keyframes neb{to{filter:hue-rotate(45deg) saturate(1.3);transform:scale(1.25) rotate(3deg)}}
+h1{background:linear-gradient(90deg,#e9e4d4,#e0a64a,#a98bff,#7fe3ff,#e9e4d4);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite;filter:drop-shadow(0 0 10px rgba(224,166,74,.45))}
+@keyframes shine{to{background-position:300% 0}}
+.bar i{background:linear-gradient(90deg,#e0a64a,#fff0b8,#e0a64a);background-size:200% 100%;animation:shine 2s linear infinite;box-shadow:0 0 12px #e0a64a}
+.panel{background:rgba(18,26,48,.78);backdrop-filter:blur(8px);box-shadow:0 0 32px -8px var(--c,#e0a64a)}
+.panel.in{animation:rise .7s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(24px) scale(.97)}}
+.warn{background:rgba(209,99,74,.1);animation:warnp 3s ease-in-out infinite}
+@keyframes warnp{50%{box-shadow:0 0 14px rgba(209,99,74,.45)}}
+.map path{animation:flow 1.6s linear infinite;stroke:#7a6bd0}
+@keyframes flow{to{stroke-dashoffset:-22}}
+.map g.o circle{animation:pulse 1.8s ease-in-out infinite;filter:drop-shadow(0 0 7px #e0a64a)}
+.map g.d circle{filter:drop-shadow(0 0 6px #7fa37a)}
+.map g:hover circle{filter:drop-shadow(0 0 12px #fff)}
+@keyframes pulse{50%{stroke-width:6;opacity:.65}}
+.hero{box-shadow:0 0 30px -6px #7a6bd0}
+.hero g circle{animation:tw 2.4s ease-in-out infinite}
+.hero g circle:nth-child(2n){animation-delay:.9s}
+.hero rect[fill="#e0a64a"]{animation:flick 1.4s infinite}
+.hero circle[r="16"]{filter:drop-shadow(0 0 8px #e9e4d4);animation:moon 5s ease-in-out infinite}
+@keyframes tw{50%{opacity:.1}}
+@keyframes flick{40%{opacity:.4}60%{opacity:1}80%{opacity:.6}}
+@keyframes moon{50%{filter:drop-shadow(0 0 16px #fff)}}
+.emb{animation:glow 3s ease-in-out infinite}
+@keyframes glow{50%{filter:drop-shadow(0 0 8px #fff);transform:rotate(4deg) scale(1.08)}}
+.opt{transition:transform .2s,box-shadow .2s,border-color .2s}
+.opt:hover{box-shadow:0 0 14px rgba(224,166,74,.5);transform:translateX(4px)}
+.opt.good{animation:pop .6s}
+@keyframes pop{40%{transform:scale(1.04);box-shadow:0 0 24px #7fa37a}}
+.term{position:relative;box-shadow:0 0 20px rgba(120,220,170,.18);border:1px solid #1d3a34}
+.term::after{content:"";position:absolute;inset:0;border-radius:8px;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px)}
+.term .p span{animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.chip:hover{box-shadow:0 0 10px rgba(185,220,170,.5)}
+button.go{animation:warnp 2s infinite}
+#view.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+#snd{position:fixed;right:10px;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:8;background:rgba(10,14,30,.8);color:var(--ink);border:1px solid #7a6bd0;border-radius:18px;padding:6px 12px;font:600 14px "Alegreya Sans",sans-serif;cursor:pointer;backdrop-filter:blur(6px);animation:warnp 2.4s infinite}
+#snd[aria-pressed="true"]{border-color:var(--gold);animation:none;box-shadow:0 0 14px rgba(224,166,74,.6)}
+.toast{position:fixed;left:50%;top:22%;z-index:9;text-align:center;padding:14px 24px;border-radius:12px;background:rgba(10,14,30,.9);border:1px solid var(--gold);box-shadow:0 0 44px rgba(224,166,74,.55);font:700 22px Cinzel,serif;color:#fff0b8;animation:toast 2.6s ease forwards;pointer-events:none}
+.toast span{display:block;font:500 16px "Alegreya Sans",sans-serif;color:var(--ink);margin-top:2px}
+@keyframes toast{0%{opacity:0;transform:translate(-50%,24px) scale(.7)}12%{opacity:1;transform:translate(-50%,0) scale(1.05)}20%{transform:translate(-50%,0) scale(1)}85%{opacity:1}100%{opacity:0;transform:translate(-50%,-14px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.hero{width:100%;height:auto;border-radius:10px;display:block;margin:4px 0 10px}
+.emb{width:46px;height:46px;float:right;margin:0 0 6px 10px}
+.plan{background:color-mix(in srgb,var(--gold) 12%,transparent);border-radius:8px;padding:8px 12px;margin:8px 0;font-size:16px}
+.plan ol{margin:4px 0 0;padding-left:20px}
+.chips,.tb{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{background:transparent;color:var(--tink);border:1px solid #355060;border-radius:14px;padding:5px 10px;font:13px ui-monospace,Menlo,monospace;cursor:pointer}
+.tb .chip{color:var(--gold);border-color:var(--gold);font-family:"Alegreya Sans",sans-serif;font-size:15px}
+.run{background:var(--gold);color:#1b1608;border:0;border-radius:6px;padding:6px 12px;font:700 14px "Alegreya Sans",sans-serif;cursor:pointer}
+form.p{align-items:center}
+.end{text-align:center;padding:18px 16px}
+.end h2{color:var(--gold);font-size:24px;margin-bottom:6px}
+.small{font-size:14px;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div id="bg"></div><canvas id="fx" aria-hidden="true"></canvas>
+<button id="snd" type="button" aria-pressed="false">♪ Sonido apagado</button>
+<main>
+<h1>La Senda del Centinela</h1>
+<p class="sub">Cruza seis reinos y aprende hacking ético. Todo ocurre en un laboratorio simulado.</p>
+<div class="cover"><svg class="hero" preserveAspectRatio="xMidYMid slice" viewBox="0 0 360 120" role="img" aria-label="Un centinela ante una torre bajo la luna"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1a24"/><stop offset="1" stop-color="#34506a"/></linearGradient></defs><rect width="360" height="120" fill="url(#sk)"/><circle cx="290" cy="30" r="16" fill="#e9e4d4"/><circle cx="297" cy="26" r="14" fill="#1a2b3a" opacity=".35"/><path d="M0 90L50 50l40 32 50-46 60 56 60-40 50 38 50-30v60H0z" fill="#22394d"/><path d="M0 105l70-26 60 22 70-30 70 28 90-20v41H0z" fill="#162531"/><path d="M180 100V48l10-14 10 14v52z" fill="#0c141b"/><rect x="187" y="56" width="6" height="9" fill="#e0a64a"/><path d="M62 100v-14l5-8 5 8v14z" fill="#0c141b"/><circle cx="67" cy="72" r="4" fill="#0c141b"/><path d="M65 74l-6 6 14 0z" fill="#0c141b"/><g fill="#e9e4d4" opacity=".8"><circle cx="40" cy="20" r="1.2"/><circle cx="120" cy="14" r="1.2"/><circle cx="210" cy="22" r="1.2"/><circle cx="250" cy="10" r="1.2"/></g></svg><div id="slides"></div></div>
+<div class="hud"><div class="bar"><i id="xpb"></i></div><div class="rank" id="rk"></div></div>
+<div class="warn">Regla del Centinela: solo se ataca lo que está en el mapa autorizado, con permiso por escrito. Fuera de eso, es delito.</div>
+<svg class="map" id="map" viewBox="0 0 360 140" role="img" aria-label="Mapa de los seis reinos"></svg>
+<div id="view"></div>
+<p class="small"><a href="#" id="rst" style="color:var(--mut)">Reiniciar progreso</a></p>
+</main>
+<script>
+const R=[
+{n:"El Valle Verde",s:"Fundamentos y ética",c:"#7fa37a",
+story:"Tu aventura empieza en la aldea. El anciano te entrega la Llave de Hierro: el dato que todos quieren robar. Antes de salir, debes jurar el código del Centinela.",
+lesson:["El hacking ético es probar la seguridad de un sistema con autorización escrita, un alcance definido y el compromiso de reportar lo que encuentres.","La tríada CIA resume qué protegemos: Confidencialidad (solo quien debe, ve), Integridad (nadie lo altera sin permiso) y Disponibilidad (sigue funcionando).","Fases típicas: reconocimiento, escaneo, explotación, post-explotación y reporte."],
+ch:[
+{t:"q",q:"¿Qué distingue a un hacker ético de un atacante?",o:["Usa herramientas distintas","Tiene autorización escrita y alcance definido","Trabaja solo de noche","Nunca encuentra fallos graves"],a:1,why:"Las técnicas pueden ser las mismas. Lo que cambia es el permiso, el alcance y el objetivo."},
+{t:"q",q:"Un ransomware cifra todos los archivos de una empresa. ¿Qué pilar de la tríada CIA afecta de forma directa?",o:["Disponibilidad","Autenticación","Trazabilidad","Cifrado"],a:0,why:"Sin acceso a sus datos, la empresa pierde disponibilidad."},
+{t:"t",q:"Misión: lee el contrato de alcance de la misión y entrega la bandera que contiene.",help:"Comandos: ayuda, ls, cat <archivo>, whoami, entregar <bandera>",flag:"FLAG{alcance_firmado}",cmds:[[/^ls$/,"alcance.txt  notas.txt"],[/^whoami$/,"centinela"],[/^cat notas\.txt$/,"Recuerda: nada fuera del alcance. Si dudas, pregunta al cliente."],[/^cat alcance\.txt$/,"CONTRATO DE ALCANCE\nObjetivo permitido: 10.0.0.0/24 (laboratorio)\nProhibido: cualquier otra red\nFirmado por: El Anciano\nBandera: FLAG{alcance_firmado}"]]}]},
+{n:"El Bosque Alto",s:"Reconocimiento (OSINT)",c:"#5f9f8c",
+story:"Los elfos del bosque ven sin ser vistos. Desde las ramas debes aprender todo sobre el Reino Sombra sin tocar sus murallas.",
+lesson:["Reconocimiento pasivo: reunir información sin interactuar con el objetivo (whois, DNS público, buscadores, redes sociales, metadatos).","Reconocimiento activo: interactuar con el objetivo, por ejemplo escaneando sus puertos. Deja huellas en sus registros.","Los dorks de buscador y los metadatos de documentos públicos revelan nombres de usuario, versiones de software y rutas internas."],
+ch:[
+{t:"q",q:"¿Cuál de estas acciones es reconocimiento pasivo?",o:["Escanear todos los puertos del servidor","Probar contraseñas en el login","Consultar el registro whois del dominio","Enviar un correo falso a un empleado"],a:2,why:"Whois es información pública y no toca los sistemas del objetivo."},
+{t:"q",q:"Un PDF público de la empresa incluye autor, versión de Word y la ruta C:\\Usuarios\\jperez\\. ¿Cómo se llama esa información oculta?",o:["Metadatos","Cookies","Payload","Banner"],a:0,why:"Los metadatos filtran usuarios y software. Conviene limpiarlos antes de publicar."},
+{t:"t",q:"Misión: investiga el dominio reino-sombra.test. Algún registro DNS guarda una bandera.",help:"Comandos: ayuda, whois <dominio>, dig <dominio> <tipo>, entregar <bandera>",flag:"FLAG{ojo_del_bosque}",cmds:[[/^whois reino-sombra\.test$/,"Dominio: reino-sombra.test\nTitular: Gremio de Sombra\nContacto: admin@reino-sombra.test\nCreado: 1999-03-14"],[/^dig reino-sombra\.test a$/,"reino-sombra.test. IN A 10.0.0.5"],[/^dig reino-sombra\.test mx$/,"reino-sombra.test. IN MX mail.reino-sombra.test."],[/^dig reino-sombra\.test txt$/,"reino-sombra.test. IN TXT \"v=spf1 -all\"\nreino-sombra.test. IN TXT \"nota-interna: FLAG{ojo_del_bosque}\""]]}]},
+{n:"Las Cavernas de Khazrum",s:"Escaneo y enumeración",c:"#c28a45",
+story:"En la oscuridad de las minas cada puerta es un puerto. Con tu farol debes descubrir cuáles están abiertas y qué guarda cada una.",
+lesson:["Un puerto abierto es un servicio escuchando. Cada servicio es una posible puerta de entrada.","Nmap descubre puertos abiertos. Con -sV intenta identificar el servicio y su versión.","Enumerar es extraer detalle: banners, versiones, usuarios y recursos compartidos. Una versión antigua apunta a vulnerabilidades conocidas (CVE)."],
+ch:[
+{t:"q",q:"¿Qué hace la opción -sV de nmap?",o:["Escanea más rápido","Detecta la versión de los servicios","Oculta tu IP","Explota las vulnerabilidades"],a:1,why:"-sV prueba cada puerto abierto para identificar servicio y versión."},
+{t:"q",q:"El escaneo muestra 21/tcp open ftp vsftpd 2.3.4. ¿Cuál es el paso más sensato?",o:["Borrar los logs","Buscar CVE de esa versión y verificar si es vulnerable, dentro del alcance","Ignorarlo porque FTP es viejo","Apagar el servidor remoto"],a:1,why:"Una versión concreta se contrasta con bases de CVE para confirmar el riesgo real."},
+{t:"t",q:"Misión: escanea 10.0.0.5, identifica los servicios y conéctate al que tenga un banner delator.",help:"Comandos: ayuda, nmap <ip>, nmap -sV <ip>, nc <ip> <puerto>, entregar <bandera>",flag:"FLAG{luz_en_la_mina}",cmds:[[/^nmap 10\.0\.0\.5$/,"21/tcp open  ftp\n22/tcp open  ssh\n80/tcp open  http"],[/^nmap -sV 10\.0\.0\.5$/,"21/tcp open  ftp   vsftpd 2.3.4\n22/tcp open  ssh   OpenSSH 4.7\n80/tcp open  http  Apache 2.2.8"],[/^nc 10\.0\.0\.5 21$/,"220 (vsFTPd 2.3.4) Bienvenido, minero. FLAG{luz_en_la_mina}"],[/^nc 10\.0\.0\.5 22$/,"SSH-2.0-OpenSSH_4.7"],[/^nc 10\.0\.0\.5 80$/,"Conexión abierta. Envía una petición HTTP."],[/^nmap /,"Fuera de alcance o dirección inválida. Tu mapa autorizado es 10.0.0.5."]]}]},
+{n:"La Torre de Ortrak",s:"Vulnerabilidades web",c:"#b8563f",
+story:"El mago de la torre guarda sus secretos tras un buscador mágico. Sus conjuros están mal escritos: fíjate cómo responde cuando le hablas con palabras extrañas.",
+lesson:["OWASP Top 10 es la lista de los riesgos web más comunes: control de acceso roto, inyección, configuración insegura y más.","SQL injection: la entrada del usuario se mezcla con la consulta y cambia su significado. La defensa son las consultas parametrizadas.","XSS inyecta scripts en páginas que otros ven. IDOR cambia un identificador en la URL y accede a datos ajenos."],
+ch:[
+{t:"q",q:"Escribes ' OR '1'='1 en un login y entras sin contraseña. ¿Qué vulnerabilidad es?",o:["XSS","SQL injection","CSRF","Fuerza bruta"],a:1,why:"La entrada altera la lógica de la consulta SQL. Se corrige con consultas parametrizadas."},
+{t:"q",q:"Estás en /perfil?id=7. Al cambiar a id=8 ves los datos de otra persona. ¿Qué fallo es?",o:["Inyección de comandos","Cabecera mal configurada","IDOR (control de acceso roto)","Desbordamiento de búfer"],a:2,why:"El servidor no comprueba que ese recurso pertenezca a quien lo pide."},
+{t:"t",q:"Misión: prueba el buscador de torre.test. Comprueba cómo reacciona y consigue volcar la tabla de usuarios.",help:"Comandos: ayuda, curl <url>, entregar <bandera>\nEjemplo: curl torre.test/buscar?q=anillo",flag:"FLAG{conjuro_roto}",cmds:[[/^curl torre\.test\/buscar\?q=anillo$/,"Resultados: 1 libro, \"Historia del Anillo\""],[/^curl torre\.test\/buscar\?q='$/,"ERROR 500: You have an error in your SQL syntax near '''\nEl buscador es sensible a las comillas."],[/^curl torre\.test\/buscar\?q=.*or\s*('?1'?\s*=\s*'?1)/i,"Resultados: todas las filas\nusuarios: mago_ortrak | aprendiz | FLAG{conjuro_roto}"],[/^curl /,"Respuesta 200. Nada interesante. Prueba con torre.test/buscar?q=..."]]}]},
+{n:"La Ciudadela Blanca",s:"Defensa (Blue Team)",c:"#9fb8d9",
+story:"Ahora cambias de bando: defiendes la capital. Las antorchas son los logs y las murallas, tus controles. Un atacante golpea la puerta.",
+lesson:["Defensa en profundidad: varias capas (firewall, parches, mínimo privilegio, MFA, monitoreo). Si una falla, otra contiene.","Las contraseñas se guardan con hash lento y sal (bcrypt, Argon2). Nunca en texto plano ni con MD5.","Los logs cuentan la historia. Muchos fallos de login desde una IP indican fuerza bruta. Respuesta: limitar intentos, bloquear y alertar."],
+ch:[
+{t:"q",q:"¿Cuál es la forma correcta de guardar contraseñas?",o:["En texto plano cifrado con una clave fija","Con MD5","Con un hash lento con sal (Argon2 o bcrypt)","En una cookie"],a:2,why:"El hash lento con sal frena los ataques de diccionario y tablas precalculadas."},
+{t:"q",q:"Los logs muestran 500 logins fallidos desde una misma IP en un minuto. ¿Qué controles ayudan más?",o:["Limitar intentos y activar MFA","Quitar los logs","Hacer la web más bonita","Subir el límite de intentos"],a:0,why:"El rate limiting corta la fuerza bruta y MFA protege aunque la clave se adivine."},
+{t:"t",q:"Misión: revisa el registro de autenticación, identifica la IP atacante y bloquéala.",help:"Comandos: ayuda, tail auth.log, ufw status, ufw deny from <ip>, entregar <bandera>",flag:"FLAG{muralla_en_pie}",cmds:[[/^tail auth\.log$/,"10:01 Failed password admin from 203.0.113.66 (x312)\n10:02 Failed password root from 203.0.113.66 (x188)\n10:05 Accepted password ana from 10.0.0.20"],[/^ufw status$/,"Estado: activo\nReglas: 22/tcp ALLOW Anywhere"],[/^ufw deny from 203\.0\.113\.66$/,"Regla añadida. Ataque contenido.\nFLAG{muralla_en_pie}"],[/^ufw deny from /,"Cuidado: esa IP no aparece como atacante. Estás bloqueando tráfico legítimo."]]}]},
+{n:"Las Tierras Sombrías",s:"Informe final",c:"#d1634a",
+story:"En el último reino no se gana con la espada sino con el informe. Si el rey no entiende el riesgo, nada se arregla. Escribe como un profesional.",
+lesson:["Un buen informe tiene: resumen ejecutivo (para directivos), alcance y metodología, hallazgos con severidad, evidencia, impacto y recomendación.","Prioriza por riesgo real: probabilidad por impacto (CVSS ayuda). Lo crítico va primero.","Divulgación responsable: informa al dueño en privado, da plazo razonable y no publiques datos sensibles."],
+ch:[
+{t:"q",q:"¿A quién va dirigido el resumen ejecutivo?",o:["Al equipo técnico, con comandos","A directivos sin perfil técnico, con riesgo y acciones claras","A los atacantes","A nadie, es opcional"],a:1,why:"Debe explicar en lenguaje claro qué riesgo hay para el negocio y qué decisión se espera."},
+{t:"q",q:"Hallazgos: A) cabecera X-Powered-By visible, B) SQL injection que vuelca usuarios, C) FTP anónimo con archivos internos. ¿Qué orden de remediación es más razonable?",o:["A, B, C","C, A, B","B, C, A","Da igual el orden"],a:2,why:"La inyección con volcado de datos es crítica, el FTP expuesto es alto y la cabecera es informativa."},
+{t:"t",q:"Jefe final: revisa los hallazgos y genera el informe con el comando correcto.",help:"Comandos: ayuda, ls, cat hallazgos.txt, redactar-informe, entregar <bandera>",flag:"FLAG{centinela_de_la_llave}",cmds:[[/^ls$/,"hallazgos.txt  evidencias/"],[/^cat hallazgos.txt$/,"1. SQLi en /buscar (Crítica)\n2. FTP anónimo (Alta)\n3. Banner con versión (Baja)\nCada uno con evidencia, impacto y remediación."],[/^redactar-informe$/,"Informe generado: resumen ejecutivo, 3 hallazgos priorizados, plan de remediación.\nFLAG{centinela_de_la_llave}"]]}]}
+];
+const X={
+"0-2":{plan:["Mira qué archivos hay con ls.","Lee el contrato con cat alcance.txt: define qué puedes atacar y qué no.","Copia la bandera y entrégala con: entregar FLAG{...}"],chips:["ayuda","ls","whoami","cat notas.txt","cat alcance.txt","entregar FLAG{"],hints:["Empieza listando los archivos con ls.","El archivo importante se llama alcance.txt.","Ejecuta cat alcance.txt y entrega el texto que aparece tras Bandera:"],learn:[[/^ls$/,"ls lista los archivos del directorio. Todo reconocimiento empieza viendo qué hay."],[/^whoami$/,"whoami muestra tu usuario. Saber con qué privilegios actúas es básico."],[/^cat alcance/,"El contrato de alcance fija objetivos permitidos y prohibidos. Sin él no se toca nada."],[/^cat/,"cat imprime un archivo en pantalla."]]},
+"1-2":{plan:["Averigua quién está detrás del dominio: whois reino-sombra.test","Consulta sus registros A y MX con dig.","Los registros TXT guardan notas olvidadas: dig reino-sombra.test txt"],chips:["ayuda","whois reino-sombra.test","dig reino-sombra.test a","dig reino-sombra.test mx","dig reino-sombra.test txt","entregar FLAG{"],hints:["Empieza con whois reino-sombra.test (reconocimiento pasivo).","dig consulta registros DNS. Hay varios tipos: a, mx, txt.","La bandera está en el registro TXT: dig reino-sombra.test txt"],learn:[[/^whois/,"whois muestra titular, contacto y fechas del dominio. Es OSINT pasivo y no toca al objetivo."],[/ a$/,"El registro A traduce el nombre a una IP. Esa IP es un objetivo candidato: comprueba que esté en el alcance."],[/ mx$/,"MX indica el servidor de correo, útil para evaluar phishing y fugas."],[/ txt$/,"Los TXT guardan SPF y verificaciones, y a veces notas internas que nunca debieron publicarse."]]},
+"2-2":{plan:["Descubre los puertos abiertos: nmap 10.0.0.5","Identifica versiones: nmap -sV 10.0.0.5","Conéctate con nc a un servicio y lee su banner. Empieza por el FTP (puerto 21)."],chips:["ayuda","nmap 10.0.0.5","nmap -sV 10.0.0.5","nc 10.0.0.5 21","nc 10.0.0.5 22","nc 10.0.0.5 80","entregar FLAG{"],hints:["Primero descubre qué puertos están abiertos con nmap.","Con -sV ves las versiones. Una versión vieja es una pista.","Usa nc 10.0.0.5 21 y lee el banner del FTP."],learn:[[/^nmap -sV/,"Con las versiones puedes buscar CVE. vsftpd 2.3.4 es famosa por una puerta trasera."],[/^nmap/,"Cada línea es un puerto abierto: 21 FTP, 22 SSH, 80 HTTP. Cada uno es una posible entrada."],[/^nc/,"Netcat abre una conexión cruda. El banner del servicio revela software, versión y a veces datos de más."]]},
+"3-2":{plan:["Prueba la función normal: curl torre.test/buscar?q=anillo","Rompe la consulta enviando una comilla simple y observa el error SQL.","Inyecta una condición siempre verdadera: ' or 1=1--"],chips:["ayuda","curl torre.test/buscar?q=anillo","curl torre.test/buscar?q='","curl torre.test/buscar?q=' or 1=1--","entregar FLAG{"],hints:["Empieza con la búsqueda normal de la palabra anillo.","Envía solo una comilla simple: q='  y mira el error.","Usa q=' or 1=1-- y entrega la bandera de la tabla de usuarios."],learn:[[/q=anillo$/,"Siempre prueba primero el comportamiento normal para tener una referencia."],[/q='$/,"Un error SQL al enviar una comilla indica que tu entrada llega a la consulta sin protección. Señal clásica de inyección."],[/or\s*'?1/i,"' or 1=1-- vuelve el WHERE siempre verdadero y -- comenta el resto de la consulta. Defensa: consultas parametrizadas."]]},
+"4-2":{plan:["Lee el registro: tail auth.log","Busca la IP con cientos de fallos seguidos. La IP que entró bien es legítima.","Bloquéala con ufw deny from <ip>"],chips:["ayuda","tail auth.log","ufw status","ufw deny from ...","entregar FLAG{"],hints:["Los logs cuentan lo ocurrido: usa tail auth.log","Busca la IP con cientos de Failed password. No es la que dice Accepted.","Escribe ufw deny from y la IP del atacante (203.0.113.x)."],learn:[[/^tail/,"Cientos de fallos en minutos desde una IP es fuerza bruta. El login aceptado desde 10.0.0.20 es tráfico legítimo."],[/^ufw status/,"El firewall solo permite SSH. Falta una regla que corte al atacante."],[/^ufw deny from 203/,"Bloqueo correcto. Añade también límite de intentos (fail2ban) y MFA."]]},
+"5-2":{plan:["Revisa los hallazgos: cat hallazgos.txt","Fíjate en que van por severidad, cada uno con evidencia, impacto y remediación.","Genera el informe con: redactar-informe"],chips:["ayuda","ls","cat hallazgos.txt","redactar-informe","entregar FLAG{"],hints:["Primero ve qué hay con ls.","Lee cat hallazgos.txt para ver los tres hallazgos.","Ejecuta redactar-informe y entrega la bandera."],learn:[[/^cat/,"Un informe prioriza por riesgo: lo Crítico va primero y cada hallazgo lleva evidencia, impacto y remediación."],[/^redactar/,"Un buen informe traduce lo técnico en decisiones para quien paga la remediación."],[/^ls$/,"Hay un listado de hallazgos y una carpeta de evidencias: sin evidencia no hay informe creíble."]]}
+};
+let hn={};
+const IMG=["reino1-valle","reino2-bosque","reino3-cavernas","reino4-torre","reino5-ciudadela","reino6-tierras"],EXT=[".png",".jpg",".jpeg",".webp",".PNG",".JPG",".JPEG",".WEBP"];
+function imgNext(el,r){const n=(+el.dataset.n||0)+1;if(n<EXT.length){el.dataset.n=n;el.src="img/"+IMG[r]+EXT[n]}else{console.warn("No se encontro la imagen img/"+IMG[r]+".png (o .jpg/.webp)");el.outerHTML=svgEm(r)}}
+function svgEm(r){return EM[r].replace('<svg','<svg class="emb" aria-hidden="true" fill="none" stroke="'+R[r].c+'" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"')}
+const EM=['<svg viewBox="0 0 48 48"><path d="M4 38c8-14 16-14 22-6 6-8 12-8 18 0"/><circle cx="34" cy="14" r="5"/></svg>','<svg viewBox="0 0 48 48"><path d="M24 6l12 16H12zM24 18l14 18H10zM24 36v8"/></svg>','<svg viewBox="0 0 48 48"><path d="M4 42L20 8l8 14 6-8 10 28zM18 42c0-8 8-8 8 0"/></svg>','<svg viewBox="0 0 48 48"><path d="M16 44V14l8-8 8 8v30zM24 20v6M20 44v-8h8v8"/></svg>','<svg viewBox="0 0 48 48"><path d="M6 44V20h6v4h6v-4h4v-8h4v8h4v4h6v-4h6v24zM20 44v-8h8v8"/></svg>','<svg viewBox="0 0 48 48"><path d="M4 24c8-12 32-12 40 0-8 12-32 12-40 0z"/><circle cx="24" cy="24" r="5"/></svg>'];
+const RK=[[0,"Aprendiz"],[60,"Explorador"],[120,"Montaraz"],[200,"Guardián"],[240,"Centinela"]];
+let S={d:{},sel:0},fb={},logs={};
+try{const x=JSON.parse(localStorage.getItem("senda")||"null");if(x&&x.d)S=x}catch(e){}
+const save=()=>{try{localStorage.setItem("senda",JSON.stringify(S))}catch(e){}};
+const key=(r,c)=>r+"-"+c, done=(r,c)=>!!S.d[key(r,c)];
+const full=r=>R[r].ch.every((_,c)=>done(r,c));
+const open=r=>r==0||full(r-1);
+const xp=()=>R.reduce((s,r,i)=>s+r.ch.reduce((a,h,c)=>a+(done(i,c)?(h.t=="t"?20:10):0),0),0);
+const esc=s=>s.replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));
+const pts=[[30,100],[90,40],[150,100],[210,40],[270,100],[330,40]];
+function map(){
+ let h='<path d="M'+pts.map(p=>p.join(",")).join(" L")+'"/>';
+ pts.forEach((p,i)=>{const o=open(i),f=full(i),c=f?"var(--moss)":o?"var(--gold)":"var(--line)";
+  h+='<g class="'+(f?"d":o?"o":"")+'" data-r="'+i+'" tabindex="0" role="button" aria-label="'+R[i].n+(o?"":" (bloqueado)")+'"><circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(i==S.sel?22:18)+'" fill="var(--panel)" stroke="'+c+'"/><text x="'+p[0]+'" y="'+p[1]+'" fill="'+c+'">'+(f?"✓":i+1)+'</text></g>'});
+ document.getElementById("map").innerHTML=h}
+function hud(){const x=xp();document.getElementById("xpb").style.width=(x/240*100)+"%";
+ let rk=RK[0][1];RK.forEach(q=>{if(x>=q[0])rk=q[1]});document.getElementById("rk").textContent=rk+" · "+x+" XP"}
+function chal(r,c){
+ const h=R[r].ch[c],k=key(r,c),ok=done(r,c);let o='<div class="ch'+(ok?" ok":"")+'"><h3>Reto '+(c+1)+(ok?" · superado":"")+'</h3><p>'+esc(h.q)+'</p>';
+ if(h.t=="q"){h.o.forEach((t,i)=>{const f=fb[k];let cl="";if(ok&&i==h.a)cl=" good";else if(f&&f.i==i&&!ok)cl=" bad";
+   o+='<button class="opt'+cl+'" data-q="'+r+","+c+","+i+'"'+(ok?" disabled":"")+'>'+esc(t)+'</button>'});
+  if(ok)o+='<p class="fb g">'+esc(h.why)+'</p>';else if(fb[k])o+='<p class="fb b">Todavía no. Relee la lección y prueba otra opción.</p>'}
+ else{const x=X[k]||{};o+=(x.plan?'<div class="plan"><b>Cómo abordarlo</b><ol>'+x.plan.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol></div>':'')+'<div class="term"><div class="small" style="color:#7d98a6">Laboratorio simulado. Toca un comando sugerido para ejecutarlo, o escríbelo tú. Tras cada comando verás una nota de teoría.</div><div class="log" id="l'+k+'">'+esc(logs[k]||"")+'</div>'+(ok?'<p class="fb g">Bandera entregada. '+esc(h.flag)+'</p>':'<div class="chips">'+(x.chips||[]).map(s=>'<button type="button" class="chip" data-chip="'+k+'" data-v="'+esc(s)+'">'+esc(s)+'</button>').join("")+'</div><form class="p" data-f="'+r+","+c+'"><span>$</span><input name="i" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal"><button class="run" type="submit">Ejecutar</button></form><div class="tb"><button type="button" class="chip" data-hint="'+r+","+c+'">Pedir pista</button><button type="button" class="chip" data-top="1">Salir al mapa</button></div>')+'</div>'}
+ return o+'</div>'}
+function view(){
+ const r=S.sel,R0=R[r];
+ if(!open(r)){document.getElementById("view").innerHTML='<div class="panel lock"><h2>'+R0.n+'</h2><p>Reino bloqueado. Supera los retos del reino anterior.</p></div>';return}
+ let h='<div class="panel'+(S.sel!==lv?" in":"")+'" style="--c:'+R0.c+'">'+''+'<h2>'+R0.n+'</h2><div class="sub">'+R0.s+'</div><p><em>'+R0.story+'</em></p><div class="les"><h3>Lección</h3><ul>'+R0.lesson.map(l=>"<li>"+l+"</li>").join("")+'</ul></div>';
+ R0.ch.forEach((_,c)=>h+=chal(r,c));
+ if(full(r)){h+=r<5?'<button class="go" data-next="1">Avanzar al siguiente reino</button>':""}
+ h+='</div>';
+ if(R.every((_,i)=>full(i)))h+='<div class="panel end" style="--c:var(--gold)"><h2>Misión cumplida, Centinela</h2><p>Recorriste las seis fases del hacking ético: fundamentos, reconocimiento, escaneo, explotación web, defensa e informe. La Llave de Hierro está a salvo.</p><p class="small">Practica ahora en entornos legales: Hack The Box, TryHackMe, OWASP Juice Shop o DVWA. Siempre con permiso.</p></div>';
+ document.getElementById("view").innerHTML=h;lv=S.sel}
+function all(){map();hud();view();setCover()}
+function run(h,cmd){cmd=cmd.trim().replace(/\s+/g," ");if(!cmd)return"";
+ if(cmd=="ayuda")return h.help;
+ const m=/^entregar (.+)$/i.exec(cmd);if(m)return m[1].trim()==h.flag?"__OK":"Bandera incorrecta. Revisa el formato FLAG{...}.";
+ for(const [re,o] of h.cmds)if(re.test(cmd))return o;return"Comando no reconocido. Escribe ayuda."}
+document.addEventListener("click",e=>{
+ const g=e.target.closest("[data-r]");if(g){S.sel=+g.dataset.r;save();all();return}
+ const q=e.target.closest("[data-q]");if(q){const[r,c,i]=q.dataset.q.split(",").map(Number);
+  if(R[r].ch[c].a==i){S.d[key(r,c)]=1;save();good(e.clientX,e.clientY)}else{fb[key(r,c)]={i};bad()}all();after();return}
+ if(e.target.closest("[data-next]")){S.sel=Math.min(5,S.sel+1);all();scrollTo(0,0);return}
+ if(e.target.id=="rst"){e.preventDefault();if(confirm("¿Borrar todo tu progreso?")){S={d:{},sel:0};fb={};logs={};save();all()}}});
+document.addEventListener("keydown",e=>{
+ if(e.key=="Enter"||e.key==" "){const g=e.target.closest&&e.target.closest("g[data-r]");if(g){e.preventDefault();S.sel=+g.dataset.r;all();return}}
+ const t=e.target.dataset&&e.target.dataset.t;if(!t||e.key!="Enter")return;
+ const[r,c]=t.split(",").map(Number),h=R[r].ch[c],k=key(r,c),cmd=e.target.value;
+ if(cmd.trim()=="limpiar"){logs[k]="";e.target.value="";document.getElementById("l"+k).textContent="";return}
+ const out=run(h,cmd);
+ if(out=="__OK"){S.d[k]=1;save();all();return}
+ logs[k]=(logs[k]||"")+"$ "+cmd+"\n"+out+"\n";e.target.value="";
+ const l=document.getElementById("l"+k);l.textContent=logs[k];l.scrollTop=l.scrollHeight});
+function add(k,s){logs[k]=(logs[k]||"")+s+"\n";const l=document.getElementById("l"+k);l.textContent=logs[k];l.scrollTop=l.scrollHeight}
+function hint(k){const hs=(X[k]||{}).hints||[],n=hn[k]||0;if(!hs.length)return;add(k,"Pista "+Math.min(n+1,hs.length)+"/"+hs.length+": "+hs[Math.min(n,hs.length-1)]);hn[k]=n+1}
+function term(k,cmd){const[r,c]=k.split("-").map(Number),h=R[r].ch[c],x=X[k]||{},t=cmd.trim().replace(/\s+/g," ");
+ if(!t)return;
+ if(t=="limpiar"){logs[k]="";document.getElementById("l"+k).textContent="";return}
+ if(t=="salir"||t=="exit"){add(k,"$ "+t+"\nPara salir usa el botón Salir al mapa. Tu progreso queda guardado.");return}
+ if(t=="pista"){hint(k);return}
+ const out=run(h,t);
+ if(out=="__OK"){S.d[k]=1;save();good();all();after();return}
+ let s="$ "+cmd+"\n"+out;
+ if(x.learn)for(const[re,tx] of x.learn)if(re.test(t)){s+="\nTeoría: "+tx;break}
+ add(k,s)}
+document.addEventListener("submit",e=>{const f=e.target.closest("[data-f]");if(!f)return;e.preventDefault();const[r,c]=f.dataset.f.split(","),i=f.elements.i;term(r+"-"+c,i.value);i.value="";i.focus()});
+document.addEventListener("click",e=>{
+ const ch=e.target.closest("[data-chip]");if(ch){const k=ch.dataset.chip,v=ch.dataset.v,f=document.querySelector('[data-f="'+k.replace("-",",")+'"]');if(/\.\.\.|\{$/.test(v)){f.elements.i.value=v.replace("...","");f.elements.i.focus()}else term(k,v);return}
+ const hb=e.target.closest("[data-hint]");if(hb){hint(hb.dataset.hint.replace(",","-"));return}
+ if(e.target.closest("[data-top]"))scrollTo({top:0,behavior:"smooth"})});
+let lv=-1;S.a=S.a||{};R.forEach((_,i)=>{if(full(i))S.a[i]=1});
+const rankOf=x=>{let r=RK[0][1];RK.forEach(q=>{if(x>=q[0])r=q[1]});return r};let lastRk=rankOf(xp());
+/* SONIDO: todo sintetizado con Web Audio, sin archivos */
+let AC,MG,on=false,mt=null,ci=0;
+function ac(){if(!AC){AC=new(window.AudioContext||window.webkitAudioContext)();MG=AC.createGain();MG.gain.value=.7;MG.connect(AC.destination)}if(AC.state=="suspended")AC.resume();return AC}
+const N=n=>440*Math.pow(2,(n-69)/12);
+function tone(f,t,d,ty,v,dst){const a=ac(),o=a.createOscillator(),g=a.createGain();o.type=ty||"sine";o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v||.12,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(dst||MG);o.start(t);o.stop(t+d+.05)}
+function sfx(k){if(!on)return;const a=ac(),t=a.currentTime;
+ if(k=="tap")tone(N(81),t,.12,"triangle",.07);
+ if(k=="key")tone(900+Math.random()*500,t,.03,"square",.02);
+ if(k=="ok")[72,76,79,84,88,91].forEach((n,i)=>tone(N(n),t+i*.07,.6,"triangle",.1));
+ if(k=="bad"){tone(N(46),t,.45,"sawtooth",.09);tone(N(45),t+.06,.45,"sawtooth",.07)}
+ if(k=="open")[74,81,86,93].forEach((n,i)=>tone(N(n),t+i*.1,.9,"sine",.08));
+ if(k=="fan"){const f=a.createBiquadFilter();f.type="lowpass";f.frequency.value=1500;f.connect(MG);[[50,0,.5],[57,.25,.5],[62,.5,.5],[66,.75,.4],[69,1,1.6]].forEach(([n,d,l])=>{tone(N(n+12),t+d,l,"sawtooth",.08,f);tone(N(n),t+d,l,"sawtooth",.06,f)});tone(N(38),t,.7,"sine",.3);tone(N(38),t+1,1.2,"sine",.3)}}
+const CH=[[50,57,62,65],[46,53,58,62],[48,55,60,64],[45,52,57,60]];
+function padT(f,t,d){[0,6].forEach(dt=>{const o=AC.createOscillator(),g=AC.createGain();o.type="triangle";o.frequency.value=f;o.detune.value=dt;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.04,t+2.2);g.gain.linearRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(MG);o.start(t);o.stop(t+d+.1)})}
+function pad(){if(!on)return;const t=ac().currentTime,c=CH[ci++%4];c.forEach(n=>padT(N(n),t,7));tone(N(26),t,1.4,"sine",.14);for(let i=0;i<5;i++)tone(N(c[i%4]+24+(i%2?7:0)),t+1+i*1.1,1.8,"sine",.035)}
+const sb=document.getElementById("snd");
+sb.onclick=()=>{on=!on;sb.setAttribute("aria-pressed",on);sb.textContent=on?"\u266a Sonido activado":"\u266a Sonido apagado";if(on){ac();MG.gain.setTargetAtTime(.7,AC.currentTime,.05);sfx("open");pad();mt=setInterval(pad,6000)}else{clearInterval(mt);MG.gain.setTargetAtTime(0,AC.currentTime,.1)}};
+/* EFECTOS: cielo galáctico, estrellas fugaces, brasas mágicas y chispas */
+const cv=document.getElementById("fx"),cx=cv.getContext("2d"),RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+let W,Hh,stars=[],ps=[],shoot=null,pt={x:innerWidth/2,y:innerHeight/2},lm=0;
+function size(){const D=Math.min(devicePixelRatio||1,2);W=innerWidth;Hh=innerHeight;cv.width=W*D;cv.height=Hh*D;cx.setTransform(D,0,0,D,0,0);stars=[];const n=Math.round(W*Hh/4200);for(let i=0;i<n;i++){const r=Math.random()*1.5+.3;stars.push({x:Math.random()*W,y:Math.random()*Hh,r,s:r*.07,p:Math.random()*6.3,c:Math.random()<.2?"#ffd9a0":Math.random()<.35?"#b9c8ff":"#fff"})}if(RM)frame(0)}
+function burst(x,y,c,n){if(RM)return;x=x==null?pt.x:x;y=y==null?pt.y:y;for(let i=0;i<n;i++){const a=Math.random()*6.3,v=1+Math.random()*5;ps.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,g:.06,l:1,d:.014+Math.random()*.012,r:1.5+Math.random()*3,c:c||"224,166,74"})}}
+function frame(t){cx.clearRect(0,0,W,Hh);
+ for(const s of stars){if(!RM){s.y+=s.s;if(s.y>Hh){s.y=0;s.x=Math.random()*W}}cx.globalAlpha=RM?.8:.35+.65*Math.abs(Math.sin(t/900+s.p));cx.fillStyle=s.c;cx.fillRect(s.x,s.y,s.r,s.r)}
+ cx.globalAlpha=1;if(RM)return;
+ if(!shoot&&Math.random()<.006)shoot={x:Math.random()*W,y:Math.random()*Hh*.4,vx:-7-Math.random()*4,vy:3+Math.random()*2,l:1};
+ if(shoot){const s=shoot;cx.strokeStyle="rgba(255,255,255,"+s.l+")";cx.lineWidth=1.6;cx.beginPath();cx.moveTo(s.x,s.y);cx.lineTo(s.x-s.vx*7,s.y-s.vy*7);cx.stroke();s.x+=s.vx;s.y+=s.vy;s.l-=.02;if(s.l<=0)shoot=null}
+ cx.globalCompositeOperation="lighter";
+ if(ps.length<160&&Math.random()<.18)ps.push({x:Math.random()*W,y:Hh+5,vx:(Math.random()-.5)*.4,vy:-.4-Math.random()*.7,l:1,d:.003,r:1+Math.random()*2,c:Math.random()<.5?"224,166,74":"169,139,255"});
+ for(let i=ps.length-1;i>=0;i--){const p=ps[i];p.x+=p.vx;p.y+=p.vy;p.vy+=p.g||0;p.l-=p.d;if(p.l<=0){ps.splice(i,1);continue}cx.fillStyle="rgba("+p.c+","+(p.l*.9)+")";cx.beginPath();cx.arc(p.x,p.y,p.r*(p.l+.3),0,6.3);cx.fill()}
+ cx.globalCompositeOperation="source-over";requestAnimationFrame(frame)}
+addEventListener("resize",size);size();if(!RM)requestAnimationFrame(frame);
+addEventListener("pointermove",e=>{pt={x:e.clientX,y:e.clientY};const n=Date.now();if(RM||n-lm<40)return;lm=n;ps.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8,l:1,d:.03,r:2+Math.random()*2,c:Math.random()<.5?"120,220,255":"169,139,255"})});
+addEventListener("pointerdown",e=>{pt={x:e.clientX,y:e.clientY};if(e.target.closest("button,g[data-r]")){sfx("tap");burst(e.clientX,e.clientY,"169,139,255",12)}});
+document.addEventListener("input",e=>{if(e.target.name=="i")sfx("key")});
+function good(x,y){sfx("ok");burst(x,y,"224,166,74",46);burst(x,y,"127,163,122",24)}
+function bad(){sfx("bad");const v=document.getElementById("view");v.classList.remove("shake");void v.offsetWidth;v.classList.add("shake");burst(pt.x,pt.y,"209,99,74",14)}
+const tq=[];let tb=0;
+function toast(m,s){tq.push([m,s]);if(!tb)nt()}
+function nt(){const q=tq.shift();if(!q){tb=0;return}tb=1;const d=document.createElement("div");d.className="toast";d.innerHTML="<b>"+q[0]+"</b>"+(q[1]?"<span>"+q[1]+"</span>":"");document.body.appendChild(d);setTimeout(()=>d.remove(),2600);setTimeout(nt,2700)}
+function fireworks(){let n=0;const iv=setInterval(()=>{burst(Math.random()*W,Math.random()*Hh*.6,["224,166,74","169,139,255","120,220,255","127,163,122"][n%4],60);sfx("ok");if(++n>9)clearInterval(iv)},450)}
+function after(){const rk=rankOf(xp());R.forEach((_,i)=>{if(full(i)&&!S.a[i]){S.a[i]=1;save();toast("Reino liberado",R[i].n);sfx("fan");burst(W/2,Hh*.35,"224,166,74",90);if(i==5)setTimeout(fireworks,1200)}});if(rk!=lastRk){lastRk=rk;toast("Nuevo rango",rk);burst(W/2,Hh*.3,"169,139,255",80)}}
+let cvN=-1;
+function setCover(){if(cvN===S.sel)return;cvN=S.sel;const box=document.getElementById("slides"),im=new Image(),k=S.sel;let n=0;im.className="sl";im.alt=R[k].n;
+ const clr=()=>box.querySelectorAll(".sl").forEach(o=>{o.classList.remove("on");setTimeout(()=>o.remove(),1500)});
+ im.onload=()=>{if(k!==S.sel)return;clr();box.appendChild(im);requestAnimationFrame(()=>requestAnimationFrame(()=>im.classList.add("on")))};
+ im.onerror=()=>{n++;if(n<EXT.length)im.src="img/"+IMG[k]+EXT[n];else if(k===S.sel){clr();console.warn("No se encontro img/"+IMG[k]+".png (o .jpg/.webp)")}};
+ im.src="img/"+IMG[k]+EXT[0]}
+all();
+</script>
+</body>
+</html>
