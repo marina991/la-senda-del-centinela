@@ -1,9 +1,0 @@
-Pon aqui tus 6 imagenes. El nombre debe ser exacto (sin espacios ni tildes).
-Extensiones aceptadas: .png .jpg .jpeg .webp
-  reino1-valle, reino2-bosque, reino3-cavernas,
-  reino4-torre, reino5-ciudadela, reino6-tierras
-Ejemplo: img/reino1-valle.png
-
-La imagen del reino seleccionado se muestra GRANDE en la portada
-(arriba del todo). Al cambiar de reino, cambia la portada con un fundido.
-Si falta una imagen, se ve la escena de la luna por defecto.
